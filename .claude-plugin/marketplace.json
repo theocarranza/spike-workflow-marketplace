@@ -8,7 +8,7 @@
       "name": "spike-workflow",
       "source": "./spike-workflow",
       "description": "Structured Agile/XP spike skill: a researcher subagent investigates, a writer + proofreader subagent pair produce the findings document, and the workflow builds a functional archived prototype, publishes to GitHub, and produces an Azure DevOps Wiki findings document. Sub-commands: run, resume, rewrite, wikigen, add-context, publish.",
-      "version": "0.4.0"
+      "version": "0.4.1"
     }
   ]
 }

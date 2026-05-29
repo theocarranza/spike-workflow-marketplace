@@ -69,6 +69,17 @@ A document with zero violations passes. Partial pass is not a category — every
 - [ ] Prototype section: path and GitHub URL present (or explicitly "pending user approval").
 - [ ] Refined Estimate: every work item has estimate, confidence, and key assumptions.
 
+### C7 — No spike-mechanics leakage (blocker class)
+- [ ] No mention of how the spike was run, re-run, regenerated, or composed. Flag: "re-validated", "documentation-based", "no flow re-runs", "second run", "regenerated", "Currency" row, run dates of the generation process, effort levels, model names, or any reference to the writer/proofreader/researcher pipeline.
+- [ ] The document reads as written once at spike close. A fact that changed is stated as the current fact, not narrated as "revised" or "updated against version X".
+- [ ] The "What Was Done" / activity list contains only investigation/prototype actions, not "re-validated all findings against docs"-style meta rows.
+
+### C8 — Project scope, not prototype scope (blocker class)
+- [ ] Recommendations, the Refined Estimate, and follow-on tickets target the project/team's real adoption work — NOT edits to the throwaway prototype. Flag any item like "standardise login selectors — 3 elements in the login form" or "land both flows in-repo" framed as prototype maintenance.
+- [ ] Estimate assumptions are stated at project scale (the real app), not prototype scale ("the 3 fields in our PoC").
+- [ ] Each finding's **Implication** speaks to the project decision, not to maintaining the prototype.
+- [ ] The prototype is described as evidence for the answer, never as a backlog of work to perform.
+
 ---
 
 ## Output format

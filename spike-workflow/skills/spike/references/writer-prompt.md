@@ -65,6 +65,20 @@ rather than guessing or omitting the section.
 - Short. A well-executed 2-day spike produces a 1–2 page findings doc.
   If a section is growing beyond one paragraph, ask: is this fact or narration? Cut narration.
 
+**No spike-mechanics leakage (critical)**
+The document describes *what was learned about the subject*, never *how the spike was run, re-run, or regenerated*. The following NEVER appear in the document — they belong only in the state log:
+- "re-validated against version X", "documentation-based", "no flow re-runs", "second run", "regenerated", "composed", a "Currency" row, or any metadata about a later research pass.
+- References to the writer/proofreader/researcher pipeline, effort levels, models, or run dates of the spike-generation process.
+- The document reads as if written once, at the moment the spike closed. If new research changed a fact, state the *current fact* — do not narrate that it was revised.
+
+**Project scope, not prototype scope (critical)**
+The spike's prototype is throwaway proof-of-concept code. Recommendations, estimates, and follow-on items are for **the project/team**, never for editing the prototype.
+- WRONG: "Standardise login selectors — 3 elements in the login form" (this is editing the PoC's flows).
+- RIGHT: "If the team adopts Maestro, standardise on `Semantics(identifier:)` selectors across the app's tested screens" (a project-level direction).
+- The prototype is evidence that the answer is yes/no — it is not a backlog of work to perform on the prototype.
+- Estimates must be for the team's real adoption work against the real app, with assumptions stated at project scale — not "the 3 fields in our PoC login flow".
+- Findings may describe what the prototype demonstrated, but their **Implication** must speak to the project decision, not to prototype maintenance.
+
 **Cross-references**
 - TL;DR references finding labels (F1, F2, …) but does not repeat their content.
 - Recommendation references finding labels but does not repeat their content.
