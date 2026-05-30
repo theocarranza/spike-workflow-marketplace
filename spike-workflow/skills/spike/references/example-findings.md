@@ -51,7 +51,7 @@ When in doubt about tone, length, or structure — match this example.
 
 **GO — unconditional.** Maestro drives `aplicatudo` end-to-end on Android with no app-side changes
 required. Both probe flows — login (F2) and create-student (F3) — pass live against the local
-Firebase emulator. The full Maestro toolchain — CLI, Studio for debugging, and Cloud for pipeline
+Firebase emulator. The full Maestro toolchain — CLI, Viewer for debugging, and Cloud for pipeline
 execution — is available and suited to this project (F4). The primary follow-on investment is
 CI/CD wiring (F5), which carries the most residual uncertainty and is recommended as its own spike.
 
@@ -69,7 +69,7 @@ CI/CD wiring (F5), which carries the most residual uncertainty and is recommende
 | Verified seeded account against Auth emulator REST API | ✅ |
 | Ran Android login flow (`01_login.flow.yaml`) | ✅ PASS |
 | Ran Android create-student flow (`02_create_student.flow.yaml`) | ✅ PASS |
-| Investigated full Maestro toolchain: CLI, Studio, Cloud | ✅ |
+| Investigated full Maestro toolchain: CLI, Viewer, Cloud | ✅ |
 | Authored GitLab CI stub (`ci/maestro-android.gitlab-ci.yml`) | ✅ |
 | Web flows authored | ⚠️ Written, not executed |
 
@@ -148,27 +148,27 @@ interaction, and Firestore persistence — are testable with Maestro today.
 
 ---
 
-### F4 — Maestro toolchain: CLI, Studio, and Cloud
+### F4 — Maestro toolchain: CLI, Viewer, and Cloud
 
-**CLI** provides 10 subcommands beyond `maestro test`: `studio` (visual debugger), `hierarchy`
-(accessibility tree dump to JSON), `record` (MP4 of a flow run), `cloud` (upload to managed
-device farm), `check-syntax`, `list-devices`, `list-cloud-devices`, `start-device`, `mcp`
-(Model Context Protocol server for AI agent integration).
+**CLI** provides subcommands beyond `maestro test`: `hierarchy` (accessibility tree dump to
+JSON), `record` (MP4 of a flow run), `cloud` (upload to managed device farm), `check-syntax`,
+`list-devices`, `list-cloud-devices`, `start-device`, and `mcp` (Model Context Protocol server
+for AI-agent integration).
 
-**Maestro Studio** is a browser-based desktop app (`maestro studio` → `http://localhost:9999`).
-It connects to a running device, mirrors the screen, and provides: element inspector (click any
-element to get its accessibility attributes and suggested `tapOn` selector), live YAML execution,
-flow builder, and navigable hierarchy view. Primary use: diagnosing why a `tapOn` or
-`assertVisible` fails — the developer sees exactly what Maestro sees.
+**Maestro Viewer** is the visual element inspector: a browser/desktop app that embeds a running
+device or emulator and provides an element inspector (click any element to get its accessibility
+attributes and suggested `tapOn` selector), live YAML execution, flow authoring, and a navigable
+hierarchy view. Primary use: diagnosing why a `tapOn` or `assertVisible` fails — the developer
+sees exactly what Maestro sees.
 
-**Maestro Cloud** is a managed device farm at `app.maestro.dev`. Available Android devices:
+**Maestro Cloud** is a managed virtual device farm at `app.maestro.dev`. Available Android devices:
 `pixel_6` (android-29–34), `pixel_9` (android-35–36). Upload syntax:
 `maestro cloud --api-key $KEY --app-file app.apk --flows .maestro/`. Output: per-flow pass/fail,
 screen recording, step log, and UI hierarchy data per run. Eliminates local emulator setup in CI
-pipelines; requires a paid plan and the app to target a real backend (Cloud devices cannot reach
-`localhost`).
+pipelines; requires a paid plan. Cloud devices reach private/staging/`localhost` backends through
+a secure tunnel (tunnel latency unmeasured).
 
-**Implication:** The full toolchain covers local development (CLI + Studio) and CI/CD execution
+**Implication:** The full toolchain covers local development (CLI + Viewer) and CI/CD execution
 (Cloud). Both paths are suitable for this project; see F5 for the CI analysis.
 
 > ✎ This finding covers three distinct tools in one entry because they form a single toolchain
@@ -191,13 +191,13 @@ without KVM: 16–23 min.
 
 **Path B — Maestro Cloud** (`ci/maestro-cloud.gitlab-ci.yml`): uploads APK and flows to Maestro's
 managed device farm. Eliminates emulator setup entirely. Pipeline reduces to: build APK → one
-`maestro cloud` command. Requires a Cloud Plan account and the app targeting a real Firebase
-backend (dev/staging) rather than the local emulator suite.
+`maestro cloud` command. Requires a Cloud Plan account; the app can reach a local Firebase
+emulator or a dev/staging backend through Cloud's secure tunnel (latency unmeasured).
 
 | Dimension | Path A — Local emulator | Path B — Maestro Cloud |
 |---|---|---|
 | Emulator setup | Required (KVM recommended) | None |
-| Firebase backend | Local emulator suite | Must target real backend |
+| Firebase backend | Local emulator suite | Reachable via secure tunnel; or a real backend |
 | Estimated duration | 11–23 min (KVM-dependent) | Build + Cloud queue (not measured) |
 | Cost | Runner compute only | Paid plan required |
 | Parallelism | 1 device per runner | Multiple devices, out of the box |
@@ -249,11 +249,11 @@ The mechanism is confirmed by the same semantics-tree dependency observed on And
 
 We confirmed Maestro can automatically test the app across both the login journey and the full
 add-a-student journey — both run hands-free against our local test backend on Android. The
-framework includes a desktop debugging tool (Maestro Studio) that lets developers see exactly
+framework includes a desktop debugging tool (Maestro Viewer) that lets developers see exactly
 what the automated test sees, and a cloud device farm (Maestro Cloud) for running tests in CI
 without managing emulators locally. To adopt Maestro, the team needs to standardise on
-accessibility identifiers for reliable selectors, land the flows in the main repository, and wire
-them into the CI pipeline. The recommendation is: **go ahead**.
+accessibility identifiers for reliable selectors, establish a maintained E2E suite in the main
+repository, and wire it into the CI pipeline. The recommendation is: **go ahead**.
 
 ### Technical
 
@@ -273,19 +273,23 @@ them into the CI pipeline. The recommendation is: **go ahead**.
 
 ## Refined Estimate
 
+Estimate for the team's real adoption of Maestro E2E on `aplicatudo`, not for the prototype.
+
 | Work item | Estimate | Confidence | Key assumptions |
 |---|---|---|---|
-| Standardise login selectors to `Semantics(identifier:)` | 1 pt | High | 3 elements in the login form |
-| Ship guarded `ensureSemantics()` for web | 0.5 pt | High | Patch already authored |
-| Land both Android flows in-repo with run scripts | 1 pt | High | Flows are green; scripts exist in prototype |
-| **Subtotal — app-side** | **~2–3 pts** | **High** | |
-| CI wiring: wire both flows in GitLab CI; verify KVM; configure caches | 2–4 pts | Medium | Timings measured locally (F5); emulator boot on CI runner unmeasured |
-| **Total (incl. CI)** | **~4–7 pts** | **Medium** | CI carries residual uncertainty |
+| Adopt `Semantics(identifier:)` as the selector standard on tested screens | 2–3 pts | High | Applied incrementally per screen brought under E2E coverage |
+| Add the guarded `ensureSemantics()` call for web E2E | 0.5 pt | High | Single guarded call in `main()` |
+| Establish a maintained E2E flow suite in the main repo (starting with login + create-student) | 2–3 pts | High | Flow authoring is straightforward; covers the first journeys |
+| **Subtotal — app + test-suite** | **~5–6 pts** | **High** | |
+| CI wiring: integrate the flows into the delivery pipeline; verify KVM; configure caches | 2–4 pts | Medium | Local execution timings measured (F5); emulator boot on CI runner is the remaining unknown |
+| **Total (incl. CI)** | **~7–10 pts** | **Medium** | CI is the largest residual unknown |
 
 > ✎ Every row has estimate, confidence, and key assumptions — no row is missing a column.
-> Confidence levels reflect what was actually proven: app-side work is High because it was
-> demonstrated; CI is Medium because emulator boot on the real runner was not measured.
-> CI carries its own line rather than being folded into another item.
+> Work items target the team's real adoption, NOT edits to the throwaway prototype.
+> WRONG: "Standardise login selectors — 3 elements in the login form" (edits the PoC).
+> RIGHT: "Adopt Semantics(identifier:) as the standard on tested screens" (project-scale).
+> Confidence levels reflect what was actually proven: app-side is High because the mechanism
+> was demonstrated; CI is Medium because emulator boot on the real runner was not measured.
 
 ---
 
@@ -336,14 +340,14 @@ GitHub: https://github.com/theocarranza/spike-maestro-aplicatudo (private)
 
 **Knowledge produced:** Maestro reads Flutter's accessibility tree; Flutter Keys are invisible to
 it but remain valuable for widget reconciliation. Login and create-student flows pass on Android
-with no app changes. Maestro Studio provides an interactive element inspector for writing and
+with no app changes. Maestro Viewer provides an interactive element inspector for writing and
 debugging flows. CI wiring is the primary residual unknown; two viable paths are documented with
 measured timings for the local-emulator path.
 
 **Recommended follow-on tickets:**
-1. Standardise login selectors to `Semantics(identifier:)`.
-2. Ship guarded `ensureSemantics()` for web.
-3. Land both flows in-repo with run scripts.
+1. Adopt `Semantics(identifier:)` as the project's E2E selector standard on tested screens.
+2. Ship the guarded `ensureSemantics()` call to enable web E2E.
+3. Establish a maintained Maestro E2E suite in the main repo, starting with login + create-student.
 4. **New spike:** Maestro in CI — measure emulator boot on GitLab runner; evaluate Maestro Cloud.
 
 > ✎ Close-Out: every field filled. Success criteria echoed verbatim from the Spike Brief.
