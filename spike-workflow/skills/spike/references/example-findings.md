@@ -340,18 +340,6 @@ with no app changes. Maestro Studio provides an interactive element inspector fo
 debugging flows. CI wiring is the primary residual unknown; two viable paths are documented with
 measured timings for the local-emulator path.
 
-**Deliverables:**
-- [x] Runnable prototype (login + create-student PASS on Android)
-- [x] Findings doc
-- [x] Stakeholder summary + GO VALIDATED
-- [x] Refined estimate
-- [x] CI stubs (Path A and Path B)
-- [x] Setup reference with code examples
-- [x] Parking Lot
-- [x] Evidence (4 screenshots)
-- [x] Prototype published to GitHub
-- [ ] Wiki published to Azure DevOps — pending user approval
-
 **Recommended follow-on tickets:**
 1. Standardise login selectors to `Semantics(identifier:)`.
 2. Ship guarded `ensureSemantics()` for web.

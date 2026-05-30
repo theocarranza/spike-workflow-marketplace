@@ -73,6 +73,7 @@ A document with zero violations passes. Partial pass is not a category — every
 - [ ] No mention of how the spike was run, re-run, regenerated, or composed. Flag: "re-validated", "documentation-based", "no flow re-runs", "second run", "regenerated", "Currency" row, run dates of the generation process, effort levels, model names, or any reference to the writer/proofreader/researcher pipeline.
 - [ ] The document reads as written once at spike close. A fact that changed is stated as the current fact, not narrated as "revised" or "updated against version X".
 - [ ] The "What Was Done" / activity list contains only investigation/prototype actions, not "re-validated all findings against docs"-style meta rows.
+- [ ] **No "Deliverables" checkbox list** in the Close-Out. The deliverables checklist tracks spike-production state (a process artifact) and forces checkbox-state maintenance after publication. Publication/archival status belongs in `.spike-state.json`, not the report. Flag any `**Deliverables:**` heading followed by `- [x]` / `- [ ]` items.
 
 ### C8 — Project scope, not prototype scope (blocker class)
 - [ ] Recommendations, the Refined Estimate, and follow-on tickets target the project/team's real adoption work — NOT edits to the throwaway prototype. Flag any item like "standardise login selectors — 3 elements in the login form" or "land both flows in-repo" framed as prototype maintenance.

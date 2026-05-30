@@ -1,6 +1,6 @@
 {
   "name": "spike-workflow",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Structured Agile/XP spike skill: frames, investigates, builds a functional archived prototype, publishes to GitHub, and produces an Azure DevOps Wiki findings document — all in compliance with the accepted definition of a spike. Sub-commands: resume, wikigen, add-context, publish.",
   "author": {
     "name": "Théo Carranza"

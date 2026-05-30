@@ -174,19 +174,13 @@ artifact capture, estimated pipeline time. Reference the `/ci` stub in the proto
 
 **Knowledge produced:** <2–3 sentences summarizing what is now known that was not known before>
 
-**Deliverables:**
-- [x] Runnable prototype
-- [x] Findings doc
-- [x] Stakeholder summary + GO/NO-GO
-- [x] Refined estimate
-- [x] Parking Lot
-- [x] Evidence
-- [ ] Prototype published to GitHub — pending user approval
-- [ ] Wiki published to Azure DevOps — pending user approval
-
 **Recommended follow-on tickets:**
 1. <ticket>
 ```
+
+> Do NOT include a "Deliverables" checkbox list in the close-out. It tracks spike-production
+> state (a process artifact), not knowledge about the subject — and it forces checkbox-state
+> maintenance. Publication/archival status belongs in the state log, not the report.
 
 ---
 
